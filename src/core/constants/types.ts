@@ -1,3 +1,5 @@
+export type SortOrientation = 'asc' | 'desc';
+
 export interface Planet {
   climate: string;
   created: string;

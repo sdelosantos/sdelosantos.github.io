@@ -1,4 +1,5 @@
 import './App.css';
+import PlanetsTable from './components/PlanetsTable/PlanetsTable';
 import ApiProvider from './core/context/ApiProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -8,7 +9,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ApiProvider>
-        <h1>Hello</h1>
+        <PlanetsTable />
       </ApiProvider>
     </QueryClientProvider>
   );
