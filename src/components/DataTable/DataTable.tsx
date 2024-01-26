@@ -80,6 +80,7 @@ const DataTable: React.FC<DataTableProps> = ({ children, data }) => {
   );
 
   useEffect(() => {
+    console.log('data', data);
     setCurrentData(data);
   }, [data]);
 

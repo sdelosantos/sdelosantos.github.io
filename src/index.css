@@ -11,6 +11,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  font-family: 'StartJedi';
+  src: local('StartJedi'),
+    url('./assets//fonts//Starjedi.ttf') format('truetype');
+  font-weight: bold;
+}
+
 html {
   height: 100vh;
   background: radial-gradient(ellipse at bottom, #0e131a 0%, #090a0f 100%);

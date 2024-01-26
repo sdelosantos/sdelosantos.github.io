@@ -26,3 +26,21 @@ export function quickSort<TArray>(
     ...quickSort(max, sortBy, orientation),
   ];
 }
+
+export function filterArray<TArray>(
+  data: Array<TArray>,
+  props: Array<keyof TArray>,
+  search: string
+) {
+  if (!search.trim()) {
+    return data;
+  }
+
+  const lowerCaseSearch = search.toLowerCase();
+  return data.filter((item) =>
+    props.some((prop) => {
+      const propValue = String(item[prop]).toLowerCase();
+      return propValue.includes(lowerCaseSearch);
+    })
+  );
+}

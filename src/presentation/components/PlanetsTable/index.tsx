@@ -14,6 +14,7 @@ const instialPagination: PaginationProps = {
   currentPageIndex: 0,
 };
 export default function PlanetTableWrapper() {
+  const [search, setSearch] = useState<string>();
   const [pagination, setPagination] =
     useState<PaginationProps>(instialPagination);
 
@@ -23,9 +24,13 @@ export default function PlanetTableWrapper() {
 
   return (
     <StyledTableContainer>
-      <SearchInput />
-      <PlanetsTable onDataLoaded={handleDataLoad} />
-      <TablePagination {...pagination} />
+      <SearchInput
+        onChangeText={setSearch}
+        delayBeforeTriggerChange={500}
+        placeHolder='Search by Planet, Terrain, Climate '
+      />
+      <PlanetsTable onDataLoaded={handleDataLoad} search={search} />
+      {!search && <TablePagination {...pagination} />}
     </StyledTableContainer>
   );
 }

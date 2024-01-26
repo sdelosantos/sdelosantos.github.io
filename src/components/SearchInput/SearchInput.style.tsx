@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { theme } from '../../presentation/theme/theme';
 
 export const StyledSearchContainer = styled.div`
-  background-color: ${theme.colors.lightSecondaryColor};
+  background-color: ${theme.colors.darkGray};
   width: 100%;
   height: ${theme.sizes.sizeFactorOf(5)}px;
   display: grid;

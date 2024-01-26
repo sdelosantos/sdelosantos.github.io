@@ -3,12 +3,13 @@ import { theme } from '../../presentation/theme/theme';
 
 export const StyledTableContainer = styled.div`
   position: relative;
-  overflow-x: auto;
+  width: 1300px;
+  overflow: auto;
+  overflow-x: hidden;
+  min-height: 500px;
   background-color: ${theme.colors.secondaryColor};
   border-radius: 0.375rem; /* 6px */
-  @media (min-width: 640px) {
-    border-radius: 0.5rem; /* 8px */
-  }
+  border: 2px solid ${theme.colors.darkGray};
 `;
 export const StyledTable = styled.table`
   width: 100%;
