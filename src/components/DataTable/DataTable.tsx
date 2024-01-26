@@ -1,8 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { quickSort } from '../../core/utils/array';
 import { SortOrientation } from '../../core/constants/types';
-import { DataColumnProps, PaginationTable } from './DataTable.util';
+import { DataColumnProps } from './DataTable.util';
+
+import {
+  StyledBodyColumn,
+  StyledHeaderColumn,
+  StyledTable,
+  StyledTableHeader,
+  StyledTableRow,
+} from './DataTable.style';
 
 type DataTableProps = {
   children: React.ReactNode;
@@ -17,13 +25,27 @@ const DataTable: React.FC<DataTableProps> = ({ children, data }) => {
   ) as React.ReactElement<DataColumnProps>[];
 
   const [currentData, setCurrentData] = useState<Array<any>>(data);
-  const currrentSort = useRef<SortOrientation | null>(null);
+  const [currrentSort, setCurrentSort] = useState<{
+    column: string;
+    sort: SortOrientation | null;
+  }>({
+    column: '',
+    sort: null,
+  });
 
   const handleDataSorting = useCallback(
-    (sort: SortOrientation, columnName: string) => {
-      currrentSort.current = sort == 'asc' ? 'desc' : 'asc';
-      const result = quickSort([...data], columnName, sort);
-      setCurrentData(result);
+    (sort: SortOrientation | null, columnName: string) => {
+      const sortDirection = !sort ? 'asc' : sort == 'asc' ? 'desc' : null;
+      if (sortDirection) {
+        const result = quickSort([...data], columnName, sortDirection);
+        setCurrentData(result);
+      } else {
+        setCurrentData([...data]);
+      }
+      setCurrentSort({
+        sort: sortDirection,
+        column: columnName,
+      });
     },
     [data]
   );
@@ -43,59 +65,56 @@ const DataTable: React.FC<DataTableProps> = ({ children, data }) => {
     []
   );
 
+  const getSortIcon = useCallback(
+    (columnName: string) => {
+      if (currrentSort.column === columnName && currrentSort.sort) {
+        return currrentSort.sort === 'asc' ? (
+          <i className='icon fa-solid fa-sort-up'></i>
+        ) : (
+          <i className='icon fa-solid fa-sort-down'></i>
+        );
+      }
+      return <i className='icon fa-solid fa-sort'></i>;
+    },
+    [currrentSort.column, currrentSort.sort]
+  );
+
   useEffect(() => {
     setCurrentData(data);
   }, [data]);
 
   return (
-    <div>
-      <div>
-        <div>
-          <input type='text' placeholder='Type a name to search' />
-        </div>
-      </div>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              {columns.map((column, index) => (
-                <th key={index}>
-                  <label>{column.props.label}</label>
-                  <span
-                    style={{ marginLeft: 2, cursor: 'pointer', color: 'blue' }}
-                    onClick={() =>
-                      handleDataSorting(
-                        currrentSort.current ?? 'asc',
-                        column.props.name
-                      )
-                    }
-                  >
-                    sort {currrentSort.current}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {currentData.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {columns.map((column, colIndex) => (
-                  <td key={colIndex}>{renderDataTableRow(column, row)}</td>
-                ))}
-              </tr>
+    <StyledTable>
+      <StyledTableHeader>
+        <StyledTableRow>
+          {columns.map((column, index) => (
+            <StyledHeaderColumn
+              key={index}
+              isActive={currrentSort.column === column.props.name}
+              onClick={() =>
+                handleDataSorting(currrentSort.sort, column.props.name)
+              }
+            >
+              <div className='actions'>
+                <label>{column.props.label}</label>
+                {getSortIcon(column.props.name)}
+              </div>
+            </StyledHeaderColumn>
+          ))}
+        </StyledTableRow>
+      </StyledTableHeader>
+      <tbody>
+        {currentData.map((row, rowIndex) => (
+          <StyledTableRow key={rowIndex}>
+            {columns.map((column, colIndex) => (
+              <StyledBodyColumn key={colIndex}>
+                {renderDataTableRow(column, row)}
+              </StyledBodyColumn>
             ))}
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <PaginationTable
-          count={60}
-          currentPageIndex={0}
-          pageSize={10}
-          onPageChange={() => {}}
-        />
-      </div>
-    </div>
+          </StyledTableRow>
+        ))}
+      </tbody>
+    </StyledTable>
   );
 };
 

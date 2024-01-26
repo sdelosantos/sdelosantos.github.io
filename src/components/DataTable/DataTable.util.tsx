@@ -15,10 +15,10 @@ export type PaginationProps = {
   count: number;
   pageSize: number;
   currentPageIndex: number;
-  onPageChange: (pageIndex: number) => void;
+  onPageChange?: (pageIndex: number) => void;
 };
 
-export const PaginationTable = ({
+export const TablePagination = ({
   count,
   pageSize,
   onPageChange,
@@ -42,7 +42,7 @@ export const PaginationTable = ({
             color: i === currentPageIndex + 1 ? 'blue' : 'black',
             cursor: 'pointer',
           }}
-          onClick={() => onPageChange(i - 1)}
+          onClick={() => onPageChange?.(i - 1)}
         >
           {i}
         </span>
@@ -51,6 +51,7 @@ export const PaginationTable = ({
     return pages;
   }, [currentPageIndex, onPageChange, totalPages]);
 
+  if (count <= 0) return null;
   return (
     <div style={{ display: 'flex', gap: '20' }}>
       <span>Next</span>

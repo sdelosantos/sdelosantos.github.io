@@ -1,5 +1,4 @@
-import './App.css';
-import PlanetsTable from './components/PlanetsTable/PlanetsTable';
+import PlanetsTable from './presentation/components/PlanetsTable';
 import ApiProvider from './core/context/ApiProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
