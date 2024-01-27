@@ -12,14 +12,19 @@ import {
   StyledTableRow,
 } from './DataTable.style';
 
-type DataTableProps = {
+type DataTableProps<TData> = {
   children: React.ReactNode;
-  data: Array<any>;
+  data: Array<TData>;
+  onRowClick?: (rowData: TData) => void;
 };
 
 export const ColumnName: React.FC<DataColumnProps> = () => null;
 
-const DataTable: React.FC<DataTableProps> = ({ children, data }) => {
+function DataTable<TData>({
+  children,
+  data,
+  onRowClick,
+}: DataTableProps<TData>) {
   const columns = React.Children.toArray(
     children
   ) as React.ReactElement<DataColumnProps>[];
@@ -37,7 +42,11 @@ const DataTable: React.FC<DataTableProps> = ({ children, data }) => {
     (sort: SortOrientation | null, columnName: string) => {
       const sortDirection = !sort ? 'asc' : sort == 'asc' ? 'desc' : null;
       if (sortDirection) {
-        const result = quickSort([...data], columnName, sortDirection);
+        const result = quickSort(
+          [...data],
+          columnName as keyof TData,
+          sortDirection
+        );
         setCurrentData(result);
       } else {
         setCurrentData([...data]);
@@ -106,7 +115,7 @@ const DataTable: React.FC<DataTableProps> = ({ children, data }) => {
       </StyledTableHeader>
       <tbody>
         {currentData.map((row, rowIndex) => (
-          <StyledTableRow key={rowIndex}>
+          <StyledTableRow key={rowIndex} onClick={() => onRowClick?.(row)}>
             {columns.map((column, colIndex) => (
               <StyledBodyColumn key={colIndex}>
                 {renderDataTableRow(column, row)}
@@ -117,6 +126,6 @@ const DataTable: React.FC<DataTableProps> = ({ children, data }) => {
       </tbody>
     </StyledTable>
   );
-};
+}
 
 export default DataTable;

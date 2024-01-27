@@ -1,8 +1,9 @@
 import { format } from 'date-fns';
 export function formatDateToString(
-  date: string | Date,
+  date: string | Date | undefined,
   dateFormat: string = 'MMM dd, yyyy'
 ): string {
+  if (!date) return 'N/A';
   return format(date, dateFormat);
 }
 

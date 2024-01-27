@@ -10,10 +10,12 @@ type PlanetTableProps = {
   search?: string;
   pageIndex?: number;
   onDataLoaded?: (data: PlanetResponseData) => void;
+  onSelectedPlanet?: (planet: Planet) => void;
 };
 
+const LOADING_MESSAGE = 'Loading Planets';
 const PlanetsTable = applySuspenseLoading<PlanetTableProps>(
-  ({ search, pageIndex = 0, onDataLoaded }) => {
+  ({ search, pageIndex = 0, onDataLoaded, onSelectedPlanet }) => {
     const planetsQuery = usePlanetsQuery({
       page: pageIndex + 1,
     });
@@ -44,7 +46,7 @@ const PlanetsTable = applySuspenseLoading<PlanetTableProps>(
     }, [onDataLoaded, planetsQuery, applySearch]);
 
     return (
-      <DataTable data={listPlanets}>
+      <DataTable data={listPlanets} onRowClick={onSelectedPlanet}>
         <ColumnName label='Planet Name' name='name' />
         <ColumnName label='Terrain' name='terrain' />
         <ColumnName label='Climate' name='climate' />
@@ -61,7 +63,8 @@ const PlanetsTable = applySuspenseLoading<PlanetTableProps>(
         />
       </DataTable>
     );
-  }
+  },
+  LOADING_MESSAGE
 );
 
 export default PlanetsTable;
