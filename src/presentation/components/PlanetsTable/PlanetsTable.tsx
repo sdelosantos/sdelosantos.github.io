@@ -8,12 +8,15 @@ import { filterArray } from '../../../core/utils/array';
 
 type PlanetTableProps = {
   search?: string;
+  pageIndex?: number;
   onDataLoaded?: (data: PlanetResponseData) => void;
 };
 
 const PlanetsTable = applySuspenseLoading<PlanetTableProps>(
-  ({ search, onDataLoaded }) => {
-    const planetsQuery = usePlanetsQuery();
+  ({ search, pageIndex = 0, onDataLoaded }) => {
+    const planetsQuery = usePlanetsQuery({
+      page: pageIndex + 1,
+    });
     const [listPlanets, setListPlanets] = useState<Planet[]>([]);
 
     const applySearch = useCallback(
@@ -39,8 +42,6 @@ const PlanetsTable = applySuspenseLoading<PlanetTableProps>(
         setListPlanets(applySearch(planets));
       }
     }, [onDataLoaded, planetsQuery, applySearch]);
-
-    console.log('listPlanets', listPlanets);
 
     return (
       <DataTable data={listPlanets}>

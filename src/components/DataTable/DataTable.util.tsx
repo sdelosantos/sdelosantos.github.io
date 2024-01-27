@@ -1,6 +1,7 @@
 //https://www.w3schools.com/css/tryit.asp?filename=trycss_ex_pagination
 
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
+import { StyledPageTab, StyledPaginationContainer } from './DataTable.style';
 
 export type DataColumnProps = {
   name: string;
@@ -18,45 +19,69 @@ export type PaginationProps = {
   onPageChange?: (pageIndex: number) => void;
 };
 
-export const TablePagination = ({
-  count,
-  pageSize,
-  onPageChange,
-  currentPageIndex,
-}: PaginationProps) => {
-  const totalPages = useMemo(
-    () => Math.ceil(count / pageSize),
-    [pageSize, count]
-  );
+export const TablePagination = memo(
+  ({
+    count,
+    pageSize,
+    onPageChange,
+    currentPageIndex = 0,
+  }: PaginationProps) => {
+    const totalPages = useMemo(
+      () => Math.ceil(count / pageSize),
+      [pageSize, count]
+    );
 
-  const renderPages = useCallback(() => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
+    const handleMovePage = useCallback(
+      (move: 'next' | 'prev') => {
+        if (onPageChange) {
+          if (move === 'next') {
+            if (currentPageIndex < totalPages - 1 && totalPages > 0) {
+              onPageChange(currentPageIndex + 1);
+            }
+          } else {
+            if (currentPageIndex > 0) {
+              onPageChange(currentPageIndex + -1);
+            }
+          }
+        }
+      },
+      [currentPageIndex, onPageChange, totalPages]
+    );
+
+    const renderPages = useCallback(() => {
+      const pages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(
+          <StyledPageTab
+            key={i}
+            role='tab'
+            isActive={i - 1 === currentPageIndex}
+            onClick={() => onPageChange?.(i - 1)}
+          >
+            <span>{i}</span>
+          </StyledPageTab>
+        );
+      }
+      return pages;
+    }, [currentPageIndex, onPageChange, totalPages]);
+
+    if (count <= 0) return null;
+    return (
+      <StyledPaginationContainer role='tablist'>
         <span
-          key={i}
-          style={{
-            textAlign: 'center',
-            width: 20,
-            height: 20,
-            color: i === currentPageIndex + 1 ? 'blue' : 'black',
-            cursor: 'pointer',
-          }}
-          onClick={() => onPageChange?.(i - 1)}
+          style={{ cursor: 'pointer' }}
+          onClick={() => handleMovePage('prev')}
         >
-          {i}
+          Preview
         </span>
-      );
-    }
-    return pages;
-  }, [currentPageIndex, onPageChange, totalPages]);
-
-  if (count <= 0) return null;
-  return (
-    <div style={{ display: 'flex', gap: '20' }}>
-      <span>Next</span>
-      {renderPages()}
-      <span>Preview</span>
-    </div>
-  );
-};
+        {renderPages()}
+        <span
+          style={{ cursor: 'pointer' }}
+          onClick={() => handleMovePage('next')}
+        >
+          Next
+        </span>
+      </StyledPaginationContainer>
+    );
+  }
+);

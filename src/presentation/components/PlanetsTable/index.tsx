@@ -8,7 +8,7 @@ import PlanetsTable from './PlanetsTable';
 import { PlanetResponseData } from '../../../core/constants/types';
 import SearchInput from '../../../components/SearchInput/SearchInput';
 
-const instialPagination: PaginationProps = {
+const initialPagination: PaginationProps = {
   count: 0,
   pageSize: 10,
   currentPageIndex: 0,
@@ -16,10 +16,14 @@ const instialPagination: PaginationProps = {
 export default function PlanetTableWrapper() {
   const [search, setSearch] = useState<string>();
   const [pagination, setPagination] =
-    useState<PaginationProps>(instialPagination);
+    useState<PaginationProps>(initialPagination);
 
   const handleDataLoad = useCallback(({ count }: PlanetResponseData) => {
     setPagination((stPagination) => ({ ...stPagination, count }));
+  }, []);
+
+  const handleMovePage = useCallback((currentPageIndex: number) => {
+    setPagination((stPagination) => ({ ...stPagination, currentPageIndex }));
   }, []);
 
   return (
@@ -29,8 +33,14 @@ export default function PlanetTableWrapper() {
         delayBeforeTriggerChange={500}
         placeHolder='Search by Planet, Terrain, Climate '
       />
-      <PlanetsTable onDataLoaded={handleDataLoad} search={search} />
-      {!search && <TablePagination {...pagination} />}
+      <PlanetsTable
+        onDataLoaded={handleDataLoad}
+        search={search}
+        pageIndex={pagination.currentPageIndex}
+      />
+      {!search && (
+        <TablePagination {...pagination} onPageChange={handleMovePage} />
+      )}
     </StyledTableContainer>
   );
 }

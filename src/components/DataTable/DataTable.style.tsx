@@ -60,3 +60,35 @@ export const StyledBodyColumn = styled.td`
   font-size: ${theme.sizes.md}px;
   padding: 1rem 1.5rem; /* 16px 24px */
 `;
+
+export const StyledPaginationContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: ${theme.colors.darkGray};
+  width: 100%;
+  height: ${theme.sizes.sizeFactorOf(5)}px;
+  padding-left: ${theme.sizes.md}px;
+  box-sizing: border-box;
+`;
+
+export const StyledPageTab = styled.label<{ isActive: boolean }>`
+  color: ${({ isActive }) =>
+    isActive ? theme.colors.dark : theme.colors.primaryColor};
+  background-color: ${({ isActive }) =>
+    isActive ? theme.colors.primaryColor : 'transparent'};
+  font-weight: bold;
+  text-align: center;
+  padding: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  & :hover {
+    color: white;
+  }
+`;
