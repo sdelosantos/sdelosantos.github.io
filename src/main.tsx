@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-import Layout from './presentation/components/layout.tsx';
+import Layout from './Layout.tsx';
 import { GlobalStyle } from './presentation/theme/global.style.tsx';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './assets/fonts/Starjedi.ttf';

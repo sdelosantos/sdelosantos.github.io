@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import NavigationHeader from './NavigationHeader';
-import { HEADER_HEIGH } from '../theme/theme';
+import NavigationHeader from './presentation/components/NavigationHeader';
+import { HEADER_HEIGH } from './presentation/theme/theme';
 
 const StyledWrapper = styled.div`
   width: 100vw;
