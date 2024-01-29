@@ -15,7 +15,12 @@ type PlanetTableProps = {
 
 const LOADING_MESSAGE = 'Loading Planets';
 const PlanetsTable = applySuspenseLoading<PlanetTableProps>(
-  ({ search, pageIndex = 0, onDataLoaded, onSelectedPlanet }) => {
+  ({
+    search,
+    pageIndex = 0,
+    onDataLoaded,
+    onSelectedPlanet,
+  }: PlanetTableProps) => {
     const planetsQuery = usePlanetsQuery({
       page: pageIndex + 1,
     });

@@ -41,3 +41,5 @@ npm run build-docker
 ```
 
 ## Screenshots
+
+<img width="1437" alt="image" src="https://github.com/sdelosantos/sdelosantos.github.io/assets/19800467/726d5e62-e94d-43ad-a643-6829e7efde29">
