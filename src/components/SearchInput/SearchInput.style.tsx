@@ -16,6 +16,7 @@ export const StyledTextInput = styled.input`
   height: 100%;
   background-color: transparent;
   border: none;
+  color: ${theme.colors.lightPrimary};
   font-size: ${theme.sizes.x}px;
   & ::placeholder {
     color: ${theme.colors.lightPrimary};

@@ -11,6 +11,7 @@ import {
   StyledTableHeader,
   StyledTableRow,
 } from './DataTable.style';
+import useKeyPressArrow from '../../core/hooks/useKeyPressArrow';
 
 type DataTableProps<TData> = {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ function DataTable<TData>({
     children
   ) as React.ReactElement<DataColumnProps>[];
 
+  const [rowIndexActived, setRowIndexActived] = useState<number | null>(null);
   const [currentData, setCurrentData] = useState<Array<any>>(data);
   const [currrentSort, setCurrentSort] = useState<{
     column: string;
@@ -55,6 +57,7 @@ function DataTable<TData>({
         sort: sortDirection,
         column: columnName,
       });
+      setRowIndexActived(null);
     },
     [data]
   );
@@ -88,8 +91,28 @@ function DataTable<TData>({
     [currrentSort.column, currrentSort.sort]
   );
 
+  useKeyPressArrow((key) => {
+    switch (key) {
+      case 'KeyDown':
+        if (rowIndexActived != null && rowIndexActived < currentData.length - 1)
+          setRowIndexActived(rowIndexActived + 1);
+        else setRowIndexActived(0);
+        break;
+      case 'KeyUp':
+        if (rowIndexActived != null && rowIndexActived > 0)
+          setRowIndexActived(rowIndexActived - 1);
+        else setRowIndexActived(0);
+        break;
+      case 'Enter':
+        if (rowIndexActived !== null) {
+          onRowClick?.(currentData[rowIndexActived]);
+        }
+        break;
+    }
+  });
+
   useEffect(() => {
-    console.log('data', data);
+    setRowIndexActived(null);
     setCurrentData(data);
   }, [data]);
 
@@ -115,7 +138,11 @@ function DataTable<TData>({
       </StyledTableHeader>
       <tbody>
         {currentData.map((row, rowIndex) => (
-          <StyledTableRow key={rowIndex} onClick={() => onRowClick?.(row)}>
+          <StyledTableRow
+            key={rowIndex}
+            onClick={() => onRowClick?.(row)}
+            isActived={rowIndexActived === rowIndex}
+          >
             {columns.map((column, colIndex) => (
               <StyledBodyColumn key={colIndex}>
                 {renderDataTableRow(column, row)}

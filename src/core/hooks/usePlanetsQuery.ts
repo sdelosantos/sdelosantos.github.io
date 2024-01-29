@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { PlanetResponseData } from '../constants/types';
 import { useApi } from '../context/ApiProvider';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -18,13 +17,9 @@ export default function usePlanetsQuery(
   params: PlanetQueryParams | null = null
 ) {
   const api = useApi();
-  const planetUrl = useMemo(
-    () =>
-      `/planets/${params?.planetId ?? ''}${
-        params?.page ?? 0 > 0 ? `?page=${params?.page}` : ''
-      }`,
-    [params]
-  );
+  const planetUrl = `/planets/${params?.planetId ?? ''}${
+    params?.page ?? 0 > 0 ? `?page=${params?.page}` : ''
+  }`;
 
   const query = useSuspenseQuery({
     queryKey: ['listPlanet', params?.page],

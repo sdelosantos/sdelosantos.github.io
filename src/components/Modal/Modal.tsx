@@ -5,6 +5,7 @@ import {
   ModalContent,
   ModalOverlay,
 } from './Modal.style';
+import useKeyPressArrow from '../../core/hooks/useKeyPressArrow';
 
 type ModalProps = {
   showModal: boolean;
@@ -18,6 +19,12 @@ export default function Modal({ showModal, children, onClosed }: ModalProps) {
     onClosed?.();
     setModalOpen(false);
   };
+
+  useKeyPressArrow((key) => {
+    if (key === 'Esc') {
+      closeModal();
+    }
+  });
 
   useEffect(() => setModalOpen(showModal), [showModal]);
   return (

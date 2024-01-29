@@ -40,12 +40,20 @@ export const StyledHeaderColumn = styled.th<{ isActive: boolean }>`
   }
 `;
 
-export const StyledTableRow = styled.tr`
+export const StyledTableRow = styled.tr<{ isActived?: boolean }>`
   cursor: pointer;
   @media (prefers-color-scheme: dark) {
     background-color: #2d3748; /* dark:bg-gray-800 */
     border-color: #374151; /* dark:border-gray-700 */
   }
+  ${({ isActived }) =>
+    isActived &&
+    `
+    & td {
+      color: ${theme.colors.dark} !important;
+    }
+    background-color: ${theme.colors.primaryColor} !important;
+  `}
   tbody &:hover {
     & td {
       color: ${theme.colors.dark} !important;

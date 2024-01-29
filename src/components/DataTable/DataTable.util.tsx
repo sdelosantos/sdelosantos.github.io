@@ -2,6 +2,7 @@
 
 import { memo, useCallback, useMemo } from 'react';
 import { StyledPageTab, StyledPaginationContainer } from './DataTable.style';
+import useKeyPressArrow from '../../core/hooks/useKeyPressArrow';
 
 export type DataColumnProps = {
   name: string;
@@ -64,6 +65,17 @@ export const TablePagination = memo(
       }
       return pages;
     }, [currentPageIndex, onPageChange, totalPages]);
+
+    useKeyPressArrow((key) => {
+      switch (key) {
+        case 'KeyLeft':
+          handleMovePage('prev');
+          break;
+        case 'KeyRight':
+          handleMovePage('next');
+          break;
+      }
+    });
 
     if (count <= 0) return null;
     return (
