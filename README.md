@@ -69,3 +69,5 @@ To enhance performance, the project implements `caching` to store data and compo
 ## Screenshots
 
 <img width="1437" alt="image" src="https://github.com/sdelosantos/sdelosantos.github.io/assets/19800467/726d5e62-e94d-43ad-a643-6829e7efde29">
+<img width="1437" alt="image" src="https://github.com/sdelosantos/sdelosantos.github.io/assets/19800467/91dc7a62-f224-4425-8758-57ae682043c9">
+
