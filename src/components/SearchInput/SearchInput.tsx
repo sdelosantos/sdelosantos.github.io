@@ -11,7 +11,8 @@ type SearchInputProps = {
   delayBeforeTriggerChange?: number;
 };
 
-let timeout: number = 0;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let timeout: any = 0;
 export default function SearchInput({
   onChangeText,
   placeHolder = 'Type your search',
