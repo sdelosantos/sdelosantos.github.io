@@ -3,7 +3,7 @@ import Modal from '../../../components/Modal/Modal';
 import TabsBox, { Tabs } from '../../../components/TabsBox/TabsBox';
 import { Planet } from '../../../core/constants/types';
 import PlanetDetailView from '../PlanetDetailView/PlanetDetailView';
-import { PeapleTab } from './PlanetModal.util';
+import { PeopleTab } from './PlanetModal.util';
 import { StyledTitle } from './PlanetModalDetail.style';
 
 type PlanetDetailModalProps = {
@@ -27,8 +27,8 @@ export default function PlanetDetailModal({
           <Tabs name='planets' label='Planets'>
             <PlanetDetailView planet={planet} />
           </Tabs>
-          <Tabs name='peaple' label='Peaple'>
-            <PeapleTab urlPeaple={planet?.residents ?? []} />
+          <Tabs name='people' label='People'>
+            <PeopleTab urlPeople={planet?.residents ?? []} />
           </Tabs>
         </TabsBox>
       </BoxContainer>

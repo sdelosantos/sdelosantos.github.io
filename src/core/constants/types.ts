@@ -42,5 +42,5 @@ export interface ApiResponseData<TData> {
   previous?: string | null;
   results: Array<TData>;
 }
-export type PeapleResponseData = ApiResponseData<Person>;
+export type PeopleResponseData = ApiResponseData<Person>;
 export type PlanetResponseData = ApiResponseData<Planet>;

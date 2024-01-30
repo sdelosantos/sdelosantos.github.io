@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  PeapleResponseData,
+  PeopleResponseData,
   Person,
   Planet,
 } from '../../../core/constants/types';
@@ -8,14 +8,14 @@ import { formatDateToString } from '../../../core/utils/format';
 import DataTable, { ColumnName } from '../../../components/DataTable/DataTable';
 import { filterArray } from '../../../core/utils/array';
 
-type PeapleTableProps = {
+type PeopleTableProps = {
   search?: string;
-  data: PeapleResponseData;
+  data: PeopleResponseData;
   onSelectedPlanet?: (planet: Planet) => void;
 };
 
-const PeapleTable = ({ search, onSelectedPlanet, data }: PeapleTableProps) => {
-  const [peaple, setPeaples] = useState<Person[]>([]);
+const PeopleTable = ({ search, onSelectedPlanet, data }: PeopleTableProps) => {
+  const [people, setPeoples] = useState<Person[]>([]);
 
   const applySearch = useCallback(
     (data: Person[]) => {
@@ -30,12 +30,12 @@ const PeapleTable = ({ search, onSelectedPlanet, data }: PeapleTableProps) => {
   );
 
   useEffect(() => {
-    const peaple = data?.results ?? [];
-    setPeaples(applySearch(peaple));
+    const people = data?.results ?? [];
+    setPeoples(applySearch(people));
   }, [data, applySearch]);
 
   return (
-    <DataTable data={peaple} onRowClick={onSelectedPlanet}>
+    <DataTable data={people} onRowClick={onSelectedPlanet}>
       <ColumnName label='Person Name' name='name' />
       <ColumnName label='Gender' name='gender' />
       <ColumnName label='Height' name='height' />
@@ -55,4 +55,4 @@ const PeapleTable = ({ search, onSelectedPlanet, data }: PeapleTableProps) => {
   );
 };
 
-export default PeapleTable;
+export default PeopleTable;

@@ -1,23 +1,23 @@
 import { useMemo } from 'react';
-import PeapleTable from '../PeapleTable/PeapleTable';
+import PeopleTable from '../PeopleTable/PeopleTable';
 import useQueryPromises from '../../../core/hooks/useQueryPromises';
 import { applySuspenseLoading } from '../../../components/HOC';
-import { PeapleResponseData, Person } from '../../../core/constants/types';
+import { PeopleResponseData, Person } from '../../../core/constants/types';
 
-const emptyResponse: PeapleResponseData = {
+const emptyResponse: PeopleResponseData = {
   count: 0,
   next: '',
   previous: '',
   results: [],
 };
-type PeapleTabProps = {
-  urlPeaple: string[];
+type PeopleTabProps = {
+  urlPeople: string[];
 };
-export const PeapleTab = applySuspenseLoading(
-  ({ urlPeaple }: PeapleTabProps) => {
-    const dataList = useQueryPromises(urlPeaple);
+export const PeopleTab = applySuspenseLoading(
+  ({ urlPeople }: PeopleTabProps) => {
+    const dataList = useQueryPromises(urlPeople);
 
-    const peapleData = useMemo<PeapleResponseData>(() => {
+    const peopleData = useMemo<PeopleResponseData>(() => {
       if (dataList.isFetched) {
         const results = dataList.data as Person[];
         return { count: results.length, next: '', previous: '', results };
@@ -25,7 +25,7 @@ export const PeapleTab = applySuspenseLoading(
       return emptyResponse;
     }, [dataList]);
 
-    return <PeapleTable data={peapleData} />;
+    return <PeopleTable data={peopleData} />;
   },
   'Loading'
 );
