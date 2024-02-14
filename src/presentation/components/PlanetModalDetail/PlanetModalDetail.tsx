@@ -24,10 +24,10 @@ export default function PlanetDetailModal({
           <label> {planet?.name ?? ''} Planet</label>
         </StyledTitle>
         <TabsBox>
-          <Tabs name='planets' label='Planets'>
+          <Tabs name='planets' label='Planet' icon='fa-solid fa-earth-americas'>
             <PlanetDetailView planet={planet} />
           </Tabs>
-          <Tabs name='people' label='People'>
+          <Tabs name='residentes' label='Residents' icon='fa-solid fa-users'>
             <PeopleTab urlPeople={planet?.residents ?? []} />
           </Tabs>
         </TabsBox>

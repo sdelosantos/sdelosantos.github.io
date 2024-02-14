@@ -62,6 +62,11 @@ export const StyledTableRow = styled.tr<{ isActived?: boolean }>`
   }
 `;
 
+export const StyledNotFoundMessage = styled.td`
+  text-align: center;
+  color: ${theme.colors.lightPrimary};
+  font-size: ${theme.sizes.md}px;
+`;
 export const StyledBodyColumn = styled.td`
   text-transform: capitalize;
   color: ${theme.colors.lightPrimary};

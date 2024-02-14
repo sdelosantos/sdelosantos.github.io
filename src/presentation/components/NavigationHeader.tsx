@@ -14,14 +14,15 @@ const StyledHeaderContainer = styled.nav`
 const StyledLogo = styled.div`
   width: fit-content;
   height: 100%;
+  padding: 10px;
 
   & img {
     width: auto;
-    height: ${HEADER_HEIGH}px;
+    height: 70px;
   }
 `;
 
-function NavigationHeader() {
+const NavigationHeader = React.memo(() => {
   return (
     <StyledHeaderContainer>
       <StyledLogo>
@@ -29,6 +30,6 @@ function NavigationHeader() {
       </StyledLogo>
     </StyledHeaderContainer>
   );
-}
+});
 
-export default React.memo(NavigationHeader);
+export default NavigationHeader;

@@ -25,6 +25,7 @@ export const StyledTab = styled.div`
   font-weight: 400;
   width: fit-content;
   height: 100%;
+  gap: 5px;
 `;
 export const StyledTabsBox = styled.div``;
 export const StyledTabsContainer = styled.section`

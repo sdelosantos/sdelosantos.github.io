@@ -7,6 +7,7 @@ import { DataColumnProps } from './DataTable.util';
 import {
   StyledBodyColumn,
   StyledHeaderColumn,
+  StyledNotFoundMessage,
   StyledTable,
   StyledTableHeader,
   StyledTableRow,
@@ -137,19 +138,27 @@ function DataTable<TData>({
         </StyledTableRow>
       </StyledTableHeader>
       <tbody>
-        {currentData.map((row, rowIndex) => (
-          <StyledTableRow
-            key={rowIndex}
-            onClick={() => onRowClick?.(row)}
-            isActived={rowIndexActived === rowIndex}
-          >
-            {columns.map((column, colIndex) => (
-              <StyledBodyColumn key={colIndex}>
-                {renderDataTableRow(column, row)}
-              </StyledBodyColumn>
-            ))}
-          </StyledTableRow>
-        ))}
+        {currentData?.length > 0 ? (
+          currentData.map((row, rowIndex) => (
+            <StyledTableRow
+              key={rowIndex}
+              onClick={() => onRowClick?.(row)}
+              isActived={rowIndexActived === rowIndex}
+            >
+              {columns.map((column, colIndex) => (
+                <StyledBodyColumn key={colIndex}>
+                  {renderDataTableRow(column, row)}
+                </StyledBodyColumn>
+              ))}
+            </StyledTableRow>
+          ))
+        ) : (
+          <tr>
+            <StyledNotFoundMessage colSpan={columns.length}>
+              <span>No data found</span>
+            </StyledNotFoundMessage>
+          </tr>
+        )}
       </tbody>
     </StyledTable>
   );

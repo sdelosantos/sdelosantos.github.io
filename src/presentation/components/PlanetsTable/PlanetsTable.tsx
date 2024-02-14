@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import usePlanetsQuery from '../../../core/hooks/usePlanetsQuery';
 import { Planet, PlanetResponseData } from '../../../core/constants/types';
 import { applySuspenseLoading } from '../../../components/HOC';
@@ -24,31 +24,33 @@ const PlanetsTable = applySuspenseLoading<PlanetTableProps>(
     const planetsQuery = usePlanetsQuery({
       page: pageIndex + 1,
     });
+    const rawData = useRef<Planet[]>([]);
     const [listPlanets, setListPlanets] = useState<Planet[]>([]);
 
-    const applySearch = useCallback(
-      (data: Planet[]) => {
-        if (search) {
-          const result = filterArray(
-            data,
-            ['name', 'terrain', 'climate'],
-            search
-          );
-          return result;
-        } else {
-          return data;
-        }
-      },
-      [search]
-    );
+    useEffect(() => {
+      const data = [...rawData.current];
+      if (search) {
+        const result = filterArray(
+          data,
+          ['name', 'terrain', 'climate'],
+          search
+        );
+        console.log('search', result);
+        setListPlanets(result);
+      } else {
+        setListPlanets(data);
+      }
+    }, [search]);
 
     useEffect(() => {
       if (planetsQuery.isFetched) {
         onDataLoaded?.(planetsQuery.data);
         const planets = planetsQuery.data?.results ?? [];
-        setListPlanets(applySearch(planets));
+        rawData.current = [...planets];
+        console.log('data');
+        setListPlanets(planets);
       }
-    }, [onDataLoaded, planetsQuery, applySearch]);
+    }, [onDataLoaded, planetsQuery]);
 
     return (
       <DataTable data={listPlanets} onRowClick={onSelectedPlanet}>
